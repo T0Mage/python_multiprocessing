@@ -4,7 +4,7 @@ def f(conn):
     conn.send([42, None, 'helloFromProcess'])
 
 def f_read(conn):
-    print("other pocess recv: ",conn.recv())
+    print("other pocess recv: ", conn.recv())
 
 if __name__ == '__main__':
     parent_conn, child_conn = Pipe()
@@ -14,4 +14,4 @@ if __name__ == '__main__':
     p.start()
     p2.start()
     p2.join()
-    p.join() 
+    p.join()
