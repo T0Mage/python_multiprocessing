@@ -2,8 +2,11 @@ from multiprocessing import Process, Pipe
 
 def f(conn):
     conn.send([42, None, 'helloFromProcess'])
+    conn.send([42, None, 'helloFromProcess1'])
+    conn.send([42, None, 'helloFromProcess2'])
 
 def f_read(conn):
+    print("other pocess recv: ", conn.recv())
     print("other pocess recv: ", conn.recv())
 
 if __name__ == '__main__':
