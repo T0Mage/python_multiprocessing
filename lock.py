@@ -6,26 +6,32 @@ def f(l, i, num):
     num.value = num.value+1
     time.sleep(0.2)
     try:
-        print('hello world', i, num.value)
+        print(f'called : {i}, number of functions at same time:{num.value}')
     finally:
         num.value = num.value-1
         l.release()
 
-def f2(l, i):
+def f2(lock,i,num):
+    num.value = num.value+1
     time.sleep(0.2)
-
-    print('hello world', i)
+    print(f'called : {i}, number of functions at same time:{num.value}')
+    num.value = num.value-1
 
 if __name__ == '__main__':
     lock = Lock()
-    number_of_active = Value('i', 0)
-    for num in range(10):
-        Process(target=f2, args=(lock, num)).start()
-
-    for num in range(10):
-        p = Process(target=f2, args=(lock, num))
+    num = Value('i', 0)
+    print("concurently:")
+    processes=[]
+    for i in range(10):
+        processes.append(Process(target=f2, args=(lock, i, num)))
+        processes[i].start()
+    for i in range(10):
+        processes[i].join()
+    print("sequential:")
+    for i in range(10):
+        p = Process(target=f2, args=(lock, i, num))
         p.start()
         p.join()
-
-    for num in range(10):
-        Process(target=f, args=(lock, num,number_of_active)).start()
+    print("using lock:")
+    for i in range(10):
+        Process(target=f, args=(lock, i, num)).start()

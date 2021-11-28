@@ -2,8 +2,7 @@ import multiprocessing as mp
 import time
 def f(q):
     q.put(['hello'])
-    q.put(['hello1'])
-    q.put(['hello2'])
+
 
 def f_read(q):
     print(q.get())
@@ -14,7 +13,7 @@ if __name__ == '__main__':
     q = mp.Queue()
     p = mp.Process(target=f, args=(q,))
     p2 = mp.Process(target=f_read, args=(q,))
-    p3 = mp.Process(target=f_read, args=(q,))
+    p3 = mp.Process(target=f_read_nowait, args=(q,))
     # q.put(obj,block,timeout)
     p.start()
     p2.start()
