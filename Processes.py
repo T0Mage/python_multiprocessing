@@ -3,7 +3,7 @@ import time
 
 def f(x):
     time.sleep(0.2)
-    print(x*x)
+    print(x*x,end=", ")
     # return x*x
 
 if __name__ == '__main__':
